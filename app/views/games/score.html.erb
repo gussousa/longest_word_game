@@ -1,0 +1,14 @@
+<h1>Result</h1>
+
+<%  grid_letters = @letters.split(" ").join(", ").upcase %>
+
+<% if @word_validation && @wrong.length == 0 %>
+  <p>Congratulations! <%= "#{@word.upcase}" %> is a valid English Word!</p>
+  <p> Your score: <%= @score %> </p>
+<% elsif @wrong.length > 0 && @word_validation%>
+  <p>Sorry but <%= "#{@word.upcase}" %> can't be built out of <%= "#{grid_letters}" %></p>
+<% else %>
+  <p>Sorry but <%= "#{@word.upcase}" %> does not seem to be a valid English word...</p>
+<% end %>
+
+<%= link_to "Play again", new_path %>
