@@ -17,21 +17,38 @@ class GamesController < ApplicationController
 
     @word = params[:word].upcase
     @letters = params[:letters]
-    @wrong = []
-
     return unless @word.length.positive?
 
-    @word.chars.each do |letter|
-      @wrong << letter unless @letters.include?(letter) || @wrong.include?(letter)
-    end
-    url = "https://wagon-dictionary.herokuapp.com/#{@word}"
-    word_serialized = open(url).read
-    word = JSON.parse(word_serialized)
-    @word_validation = word['found']
-
+    @wrong = verify_word_in_grid(@word, @letters)
+    @word_validation = verify_word_in_api(@word)
     return unless @wrong.length.zero? && @word_validation
 
-    special_letters = ['z', 'q', 'x', 'h']
-    @score = @word.chars.length**2
+    @score = get_score(@word)
+  end
+
+  private
+
+  def get_score(word)
+    special_letters = %w[z q j h x]
+    score = word.chars.length
+    special_letters.each { |letter| score += 3 if word.include?(letter.upcase) }
+    session[:high_scores].nil? ? session[:high_scores] = [[score, word]] : session[:high_scores] << [score, word]
+    score
+  end
+
+  def verify_word_in_api(word)
+    url = "https://wagon-dictionary.herokuapp.com/#{word}"
+    word_serialized = open(url).read
+    result = JSON.parse(word_serialized)
+    result['found']
+  end
+
+  def verify_word_in_grid(word, letters)
+    wrong = []
+    word.chars.each do |letter|
+      control = wrong.include?(letter)
+      wrong << letter unless letters.include?(letter) && letters.count(letter) >= word.count(letter) || control
+    end
+    wrong
   end
 end

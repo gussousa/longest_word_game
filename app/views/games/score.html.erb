@@ -2,7 +2,9 @@
   <% if @letters.nil? %>
     <h1>Ops!</h1>
     <p>Something went wrong. Try starting a new game.</p>
-    <%= link_to "Start a new game", new_path %>
+    <div class="back_link">
+      <%= link_to "Start a new game", new_path %>
+    <div>
 
   <% else %>
     <%  grid_letters = @letters.split(" ").join(",  ").upcase unless @letters.nil? %>
@@ -11,14 +13,26 @@
     <% if @word_validation && @wrong.length == 0 %>
       <p>Congratulations! <span><%= "#{@word.upcase}" %></span> is a valid English Word!</p>
       <p> Your score: <span><%= @score %></span> </p>
+      <hr>
+      <div class="high_scores">
+      <h2>High Scores</h2>
+        <% high_scores = session[:high_scores].sort.reverse %>
+        <% high_scores.each_with_index do |info, index| %>
+          <% if index < 11 %>
+            <p><span><%= "#{index + 1}" %>º.</span> word:<span><%= "#{info[0]}" %></span> score:<span><%= "#{info[1]}" %></span></p>
+          <% end %>
+        <% end %>
+      </div>
     <% elsif @wrong.length > 0 && @word_validation%>
       <p>Sorry but <span><%= "#{@word.upcase}" %></span> can't be built out of <span><%= "#{grid_letters}" %></span>.</p>
+      <p>Wrong or exced usage letters <span><%= @wrong %></span> </p>
     <% elsif @word == ""%>
       <p>No word, no game. Sorry.</p>
     <% else %>
       <p>Sorry but <span><%= "#{@word.upcase}" %></span> does not seem to be a valid English word...</p>
     <% end %>
-
-    <%= link_to "Play again", new_path %>
+    <div class="back_link">
+      <%= link_to "Play again", new_path %>
+    <div>
   <% end %>
 </div>

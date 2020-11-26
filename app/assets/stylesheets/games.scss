@@ -19,7 +19,7 @@ body {
 }
 
 .container > p {
-  margin: 0px 0px 20px 0px;
+  margin: 0px;
   color: rgba(255, 255, 255, 0.459);
 }
 
@@ -96,9 +96,29 @@ a {
   transition: 0.5s;
 }
 
-
 a:hover {
   text-decoration: none;
   color: white;
   background-color: orange;
+}
+
+.high_scores {
+  border: 0.5px solid rgba(255, 255, 255, 0.158);
+  padding: 20px;
+}
+
+.high_scores h2{
+  border-bottom: 0.5px solid orange;
+  margin-bottom: 20px;
+  font-size: large;
+}
+
+.high_scores p{
+  margin-bottom: 0px;
+  color: rgba(255, 255, 255, 0.459);
+}
+
+.back_link {
+  display: block;
+  margin-top: 20px;
 }
