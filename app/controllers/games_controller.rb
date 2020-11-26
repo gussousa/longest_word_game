@@ -13,6 +13,8 @@ class GamesController < ApplicationController
   end
 
   def score
+    return if params[:word].nil?
+
     @word = params[:word].upcase
     @letters = params[:letters]
     @wrong = []

@@ -1,14 +1,24 @@
-<h1>Result</h1>
+<div class="container">
+  <% if @letters.nil? %>
+    <h1>Ops!</h1>
+    <p>Something went wrong. Try starting a new game.</p>
+    <%= link_to "Start a new game", new_path %>
 
-<%  grid_letters = @letters.split(" ").join(", ").upcase %>
+  <% else %>
+    <%  grid_letters = @letters.split(" ").join(",  ").upcase unless @letters.nil? %>
+    <h1>Result</h1>
 
-<% if @word_validation && @wrong.length == 0 %>
-  <p>Congratulations! <%= "#{@word.upcase}" %> is a valid English Word!</p>
-  <p> Your score: <%= @score %> </p>
-<% elsif @wrong.length > 0 && @word_validation%>
-  <p>Sorry but <%= "#{@word.upcase}" %> can't be built out of <%= "#{grid_letters}" %></p>
-<% else %>
-  <p>Sorry but <%= "#{@word.upcase}" %> does not seem to be a valid English word...</p>
-<% end %>
+    <% if @word_validation && @wrong.length == 0 %>
+      <p>Congratulations! <span><%= "#{@word.upcase}" %></span> is a valid English Word!</p>
+      <p> Your score: <span><%= @score %></span> </p>
+    <% elsif @wrong.length > 0 && @word_validation%>
+      <p>Sorry but <span><%= "#{@word.upcase}" %></span> can't be built out of <span><%= "#{grid_letters}" %></span>.</p>
+    <% elsif @word == ""%>
+      <p>No word, no game. Sorry.</p>
+    <% else %>
+      <p>Sorry but <span><%= "#{@word.upcase}" %></span> does not seem to be a valid English word...</p>
+    <% end %>
 
-<%= link_to "Play again", new_path %>
+    <%= link_to "Play again", new_path %>
+  <% end %>
+</div>

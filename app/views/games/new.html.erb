@@ -1,13 +1,18 @@
-<h1>New game</h1>
 <% all_letters = @letters.join %>
-<div class="container" %>
-  <% @letters.each do | letter | %>  
-    <letter><%= "#{letter}"%></letter>
-  <% end %>
-  <form action="/score" method="POST">
-    <input type="text" name="word">
-    <input type="submit" value="Let's go!">
+<div class="container"%>
+<h1>New game</h1>
+<p>Form the longest english word you can with the letters displayed bellow:</p>
+  <div class="letters flex-margin-20">
+    <% @letters.each do | letter | %>  
+      <letter><%= "#{letter}"%></letter>
+    <% end %>
+  </div>
+  <div class="word-input-form flex-margin-20">
+  <form action="/score" method="POST" class="form-inline">
+        <input type="text" name="word" class="form-control col-10" placeholder="Your word here">
+        <input type="submit" value="Let's go!" class="btn btn-primary col-2">
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <%= hidden_field_tag :letters, @letters %>
   </form>
+  </div>
 </div>
